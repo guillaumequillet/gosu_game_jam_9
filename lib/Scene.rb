@@ -33,7 +33,7 @@ class SceneGame < Scene
     def initialize(window)
         super(window)
         @map = Map.new
-        @hero = Hero.new
+        @hero = Hero.new(@window.width/2, @window.height/2)
         @snowball = Snowball.new
     end
 
@@ -44,6 +44,8 @@ class SceneGame < Scene
     end
 
     def draw
-        @font.draw_text('GAME SCREEN', 50, 50, 0)
+        @hero.draw
+        @snowball.draw
+        @map.draw
     end
 end
