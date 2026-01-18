@@ -18,7 +18,7 @@ class SnowTile
             amount = @amount * 0.1
             @amount -= amount
             @amount = 0 if @amount <= 0
-            snowball.feed(amount * 2.0)
+            snowball.feed(amount * 1.2)
         else 
             return false
         end

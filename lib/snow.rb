@@ -4,20 +4,24 @@ class Snow
         @window = window
         @hero = hero
         @particles = []
+
+        # first generation, middle screen to fill it at launch
+        LIMIT.times { generate_particle(Gosu.random(0, window.height)) }
     end
 
     def update(dt)
         if @particles.size < LIMIT
-            (LIMIT - @particles.size).times do 
-                x = Gosu.random(@hero.x - @window.width / 2 - 150, @hero.x + @window.width / 2 + 150)
-                y = -100
-                @particles.push SnowParticle.new(@window, x, y)
-            end
+            (LIMIT - @particles.size).times { generate_particle }
         end
 
         @particles.each {|particle| particle.update(dt)}
 
         @particles.delete_if {|particle| particle.to_delete?}
+    end
+
+    def generate_particle(y = -100)
+        x = Gosu.random(@hero.x - @window.width / 2 - 150, @hero.x + @window.width / 2 + 150)
+        @particles.push SnowParticle.new(@window, x, y)
     end
 
     def draw

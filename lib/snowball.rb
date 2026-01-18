@@ -3,7 +3,7 @@ class Snowball
 
     attr_reader :center_x, :size
     def initialize(center_x = 0, center_y = 0)
-        @min_radius, @max_radius = 8, 96
+        @min_radius, @max_radius = 8, 80
         @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
         @speed = 0
