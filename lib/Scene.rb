@@ -32,9 +32,11 @@ end
 class SceneGame < Scene
     def initialize(window)
         super(window)
-        @map = Map.new
-        @hero = Hero.new(@window.width/2, @window.height/2)
-        @snowball = Snowball.new
+        @floor = @window.height / 2
+
+        @map = Map.new(@floor)
+        @hero = Hero.new(128, @floor)
+        @snowball = Snowball.new(@window.width / 2, @floor, 64)
     end
 
     def update(dt)
