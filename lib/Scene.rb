@@ -24,6 +24,13 @@ class SceneTitle < Scene
 end
 
 class SceneGame < Scene
+    def initialize(window)
+        super(window)
+        @map = Map.new
+        @hero = Hero.new
+        @snowball = Snowball.new
+    end
+
     def draw
         @font.draw_text('GAME SCREEN', 50, 50, 0)
     end
