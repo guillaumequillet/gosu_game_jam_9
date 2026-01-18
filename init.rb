@@ -15,28 +15,20 @@ class Window < Gosu::Window
     def button_down(id)
         super
         close! if id == Gosu::KB_ESCAPE
+        @scene.button_down(id)
     end
 
     def update
-        case @scene.class.to_s
-        when 'SceneTitle'
+        @dt ||= Gosu.milliseconds
+        dt = Gosu.milliseconds - @dt
 
-        when 'SceneGame'
+        @scene.update(dt)
 
-        when 'SceneGameOver'
-
-        end
+        @dt = Gosu.milliseconds
     end
 
     def draw
-        case @scene.class.to_s
-        when 'SceneTitle'
-            @font.draw_text('TITLE SCREEN', 50, 50, 0)
-        when 'SceneGame'
-            @font.draw_text('GAME SCREEN', 50, 50, 0)
-        when 'SceneGameOver'
-            @font.draw_text('GAME OVER', 50, 50, 0)
-        end
+        @scene.draw
     end
 end
 
