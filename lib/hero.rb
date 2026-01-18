@@ -26,7 +26,7 @@ class Hero
         move(-speed) if @keys[:left].any?{|key| Gosu.button_down?(key)}
 
         # snowball interaction
-        if snowball.collides_hero?(@x + (@width / 2.0))
+        if snowball.collides_hero?(@x + snowball.size * 0.3)
             snowball.hero_push(speed)
         else
             snowball.slowdown   
@@ -38,7 +38,7 @@ class Hero
     end
 
     def draw
-        Gosu.draw_rect(@x - @width / 2, @y - @height, @width, @height, Gosu::Color::GREEN)
-        Gosu.draw_rect(@x - 2, @y - 2, 4, 4, Gosu::Color::RED)
+        Gosu.draw_rect(@x - @width / 2, @y - @height, @width, @height, Gosu::Color::GREEN, 1)
+        Gosu.draw_rect(@x - 2, @y - 2, 4, 4, Gosu::Color::RED, 1)
     end
 end

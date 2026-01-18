@@ -15,7 +15,7 @@ class Snowball
     end
 
     def collides_hero?(push_x)
-       return (@center_x - push_x <= @radius)
+       return (push_x >= @center_x)
     end
 
     def hero_push(speed)
