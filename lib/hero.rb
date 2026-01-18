@@ -1,4 +1,6 @@
 class Hero
+    Z_ORDER = 4
+
     attr_reader :x, :y
     def initialize(x = 0, y = 0)
         @x, @y = x, y
@@ -40,7 +42,7 @@ class Hero
     end
 
     def draw
-        Gosu.draw_rect(@x - @width / 2, @y - @height, @width, @height, Gosu::Color::GREEN, 1)
-        Gosu.draw_rect(@x - 2, @y - 2, 4, 4, Gosu::Color::RED, 1)
+        Gosu.draw_rect(@x - @width / 2, @y - @height, @width, @height, Gosu::Color::GREEN, Z_ORDER)
+        Gosu.draw_rect(@x - 2, @y - 2, 4, 4, Gosu::Color::RED, Z_ORDER)
     end
 end

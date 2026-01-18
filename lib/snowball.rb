@@ -1,7 +1,9 @@
 class Snowball
+    Z_ORDER = 3
+
     attr_reader :center_x, :size
     def initialize(center_x = 0, center_y = 0)
-        @min_radius, @max_radius = 16, 96
+        @min_radius, @max_radius = 8, 96
         @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
         @speed = 0
@@ -74,6 +76,6 @@ class Snowball
     end
 
     def draw
-        @gfx.draw_rot(@center_x, @center_y - @offset_y, 0, @angle, 0.5, 0.5, @scale, @scale)
+        @gfx.draw_rot(@center_x, @center_y - @offset_y, Z_ORDER, @angle, 0.5, 0.5, @scale, @scale)
     end
 end

@@ -31,7 +31,7 @@ class Map
     end
 
     def add_snow_tile
-        x, y, amount = @snow_tiles.size * TILE_SIZE, @floor, Gosu.random(4, 20)
+        x, y, amount = @snow_tiles.size * TILE_SIZE, @floor, 4
         @snow_tiles.push SnowTile.new(x, y, amount)
     end
 
