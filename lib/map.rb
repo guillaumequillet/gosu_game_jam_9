@@ -9,7 +9,7 @@ class Map
         
         # to contain snow that will be collected 
         @snow_tiles = []
-        generate_snow_tiles(10)
+        generate_snow_tiles(20)
     end
 
     def update(hero, snowball)

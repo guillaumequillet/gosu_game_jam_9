@@ -1,7 +1,10 @@
 class Hero
+    attr_reader :x, :y
     def initialize(x = 0, y = 0)
         @x, @y = x, y
-        @speed = 0.2
+        @min_speed = 0.0
+        @max_speed = 0.2
+        @speed = @max_speed
 
         @width = 32
         @height = 32
@@ -24,7 +27,7 @@ class Hero
 
         # snowball interaction
         if snowball.collides_hero?(@x + (@width / 2.0))
-            snowball.hero_push(speed) 
+            snowball.hero_push(speed)
         else
             snowball.slowdown   
         end
