@@ -3,13 +3,14 @@ class Hero
     def initialize(x = 0, y = 0)
         @x, @y = x, y
         @min_speed = 0.0
-        @max_speed = 0.2
+        @max_speed = 0.15
         @speed = @max_speed
 
         @width = 32
         @height = 32
 
         @keys = {
+            grip: [Gosu::KB_SPACE],
             right: [Gosu::KB_RIGHT, Gosu::KB_D],
             left: [Gosu::KB_LEFT, Gosu::KB_A]
         }
@@ -26,8 +27,9 @@ class Hero
         move(-speed) if @keys[:left].any?{|key| Gosu.button_down?(key)}
 
         # snowball interaction
-        if snowball.collides_hero?(@x + snowball.size * 0.3)
-            snowball.hero_push(speed)
+        if @keys[:grip].any?{|key| Gosu.button_down?(key)} && snowball.collides_hero?(@x)
+            snowball.hero_push(speed)  if @keys[:right].any?{|key| Gosu.button_down?(key)}
+            snowball.hero_push(-speed) if @keys[:left].any?{|key| Gosu.button_down?(key)}
         else
             snowball.slowdown  
         end

@@ -5,6 +5,7 @@ class Snowball
         @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
         @speed = 0
+        @speed_sign = nil
         @hero_push = false
         @gfx = Gosu::Image.new('gfx/snowball.png', retro: true)
         calculate_size
@@ -15,12 +16,14 @@ class Snowball
     end
 
     def collides_hero?(push_x)
-       return (push_x >= @center_x)
+        tolerance = @size * 0.3
+        return (push_x >= @center_x - tolerance && push_x <= @center_x + tolerance)
     end
 
     def hero_push(speed)
         @hero_push = true 
         @speed = speed
+        @speed_sign = (@speed >= 0) ? :plus : :minus
     end
 
     def hero_push?
@@ -40,9 +43,14 @@ class Snowball
     def slowdown
         @hero_push = false
         
-        if @speed > 0.0
-            @speed = lerp(@speed, 0, 0.06)
-            @speed = 0 if @speed <= 0.01
+        if @speed != 0.0
+            if @speed_sign == :plus
+                @speed = lerp(@speed, 0, 0.06)
+                @speed = 0 if @speed <= 0.01
+            elsif @speed_sign == :minus
+                @speed = lerp(@speed, 0, 0.06)
+                @speed = 0 if @speed > -0.01
+            end
         end
     end
     
