@@ -3,17 +3,15 @@
 =end
 
 class SnowTile
+    attr_reader :amount
     def initialize(x, y, amount)
         @x, @y, @amount = x, y, amount
+        @to_delete = false
     end
 
-    def to_destroy?
-        return (@amount <= 0)
-    end
-
-    # to handle snow quantity, object will be destroyed if 0
-    def update
-
+    def feeds_snowball?(snowball)
+        left = snowball.center_x - snowball.size / 2
+        return (left >= @x && left <= @x + Map::TILE_SIZE)
     end
 
     def draw

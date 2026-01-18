@@ -22,6 +22,12 @@ class Snowball
         @speed = speed
     end
 
+    def feed(amount)
+        @radius += amount
+        @center_x += amount
+        calculate_size
+    end
+
     def slowdown
         @hero_push = false
         @speed *= 0.75
