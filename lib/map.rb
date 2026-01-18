@@ -1,4 +1,6 @@
 class Map
+    TILE_SIZE = 32
+    
     def initialize(floor)
         @floor = floor
 
@@ -10,6 +12,10 @@ class Map
     end
 
     def update(hero, snowball)
+
+    end
+
+    def add_snow_tile(x, y)
 
     end
 

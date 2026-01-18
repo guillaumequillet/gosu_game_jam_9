@@ -9,7 +9,7 @@ class Window < Gosu::Window
         @scene = SceneGame.new(self)
     end
 
-    def needs_cursor?; false; end
+    def needs_cursor?; true; end
 
     def button_down(id)
         super
