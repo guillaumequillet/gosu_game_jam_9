@@ -29,7 +29,7 @@ class Hero
         if snowball.collides_hero?(@x + snowball.size * 0.3)
             snowball.hero_push(speed)
         else
-            snowball.slowdown   
+            snowball.slowdown  
         end
     end
 

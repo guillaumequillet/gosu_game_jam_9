@@ -1,7 +1,7 @@
 class Snowball
     attr_reader :center_x, :size
     def initialize(center_x = 0, center_y = 0)
-        @min_radius, @max_radius = 16, 256
+        @min_radius, @max_radius = 16, 96
         @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
         @speed = 0
@@ -41,11 +41,15 @@ class Snowball
         @hero_push = false
         
         if @speed > 0.0
-            @speed *= 0.9
-            @speed = 0 if @speed < 0
+            @speed = lerp(@speed, 0, 0.06)
+            @speed = 0 if @speed <= 0.01
         end
     end
     
+    def lerp(a, b, t)
+        a + (b - a) * t
+    end
+
     def calculate_size
         @scale = (@radius * 2) / @gfx.width.to_f
         @size = @scale * @gfx.width
