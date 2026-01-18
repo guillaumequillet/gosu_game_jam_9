@@ -7,7 +7,6 @@ class Window < Gosu::Window
         super(640, 480, false)
         self.caption = 'Gosu Game Jam 9'
         @scene = SceneGame.new(self)
-        @font = Gosu::Font.new(24)
     end
 
     def needs_cursor?; false; end
