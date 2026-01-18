@@ -3,7 +3,7 @@ class Camera
         @window = window
         @target = target
         @x, @y = @target.x, @target.y
-        @height = 64
+        @height = 96
     end
 
     def update(dt)

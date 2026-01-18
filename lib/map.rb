@@ -1,5 +1,6 @@
 class Map
     TILE_SIZE = 32
+    MAP_LENGTH = 64
 
     def initialize(floor)
         @floor = floor
@@ -9,18 +10,20 @@ class Map
         
         # to contain snow that will be collected 
         @snow_tiles = []
-        generate_snow_tiles(20)
+        generate_snow_tiles(MAP_LENGTH)
     end
 
     def update(hero, snowball)
         # is snowball should be fed with snow_tiles ?
-        @snow_tiles.each do |snow_tile|
-            if snow_tile.feeds_snowball?(snowball)
-                break 
+        if snowball.hero_push?
+            @snow_tiles.each do |snow_tile|
+                if snow_tile.feeds_snowball?(snowball)
+                    break 
+                end
             end
-        end
 
-        @snow_tiles.delete_if {|snow_tile| return snow_tile.to_delete?}
+            @snow_tiles.delete_if {|snow_tile| return snow_tile.to_delete?}
+        end
     end
 
     def generate_snow_tiles(qty)

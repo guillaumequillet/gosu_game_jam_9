@@ -37,7 +37,7 @@ class SceneGame < Scene
         @map = Map.new(@floor)
         @hero = Hero.new(32, @floor)
         @camera = Camera.new(@window, @hero)
-        @snowball = Snowball.new(64, @floor, 32)
+        @snowball = Snowball.new(100, @floor)
     end
 
     def update(dt)

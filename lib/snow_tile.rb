@@ -15,7 +15,7 @@ class SnowTile
     def feeds_snowball?(snowball)
         left = snowball.center_x - snowball.size / 2
         if (left >= @x && left <= @x + Map::TILE_SIZE)
-            amount = @amount * 0.2
+            amount = @amount * 0.1
             @amount -= amount
             @amount = 0 if @amount <= 0
             snowball.feed(amount * 0.5)

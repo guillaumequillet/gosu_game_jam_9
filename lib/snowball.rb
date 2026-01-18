@@ -1,7 +1,8 @@
 class Snowball
     attr_reader :center_x, :size
-    def initialize(center_x = 0, center_y = 0, radius = 0)
-        @center_x, @center_y, @radius = center_x, center_y, radius
+    def initialize(center_x = 0, center_y = 0)
+        @min_radius, @max_radius = 16, 256
+        @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
         @speed = 0
         @hero_push = false
@@ -14,7 +15,7 @@ class Snowball
     end
 
     def collides_hero?(push_x)
-        return push_x >= (@center_x - (@scale * @gfx.width * 0.5))
+       return (@center_x - push_x <= @radius)
     end
 
     def hero_push(speed)
@@ -22,7 +23,15 @@ class Snowball
         @speed = speed
     end
 
+    def hero_push?
+        return @hero_push
+    end
+
     def feed(amount)
+        if (@radius + amount) > @max_radius
+            amount = @max_radius - @radius
+        end
+
         @radius += amount
         @center_x += amount
         calculate_size
@@ -30,12 +39,15 @@ class Snowball
 
     def slowdown
         @hero_push = false
-        @speed *= 0.75
-        @speed = 0 if @speed < 0
+        
+        if @speed > 0.0
+            @speed *= 0.9
+            @speed = 0 if @speed < 0
+        end
     end
     
     def calculate_size
-        @scale = @radius.to_f / @gfx.width
+        @scale = (@radius * 2) / @gfx.width.to_f
         @size = @scale * @gfx.width
         @offset_y = 0.5 * @size
     end
