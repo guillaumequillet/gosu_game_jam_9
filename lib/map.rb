@@ -1,6 +1,6 @@
 class Map
     TILE_SIZE = 32
-    
+
     def initialize(floor)
         @floor = floor
 
@@ -9,14 +9,22 @@ class Map
         
         # to contain snow that will be collected 
         @snow_tiles = []
+        generate_snow_tiles(10)
     end
 
     def update(hero, snowball)
+        # is snowball should be fed with snow_tiles ?
+
 
     end
 
-    def add_snow_tile(x, y)
+    def generate_snow_tiles(qty)
+        qty.times { add_snow_tile }
+    end
 
+    def add_snow_tile
+        x, y, amount = @snow_tiles.size * TILE_SIZE, @floor, Gosu.random(2, 6)
+        @snow_tiles.push SnowTile.new(x, y, amount)
     end
 
     def draw

@@ -1,4 +1,5 @@
 class Snowball
+    attr_reader :center_x, :size
     def initialize(center_x = 0, center_y = 0, radius = 0)
         @center_x, @center_y, @radius = center_x, center_y, radius
         @angle = 0
@@ -29,7 +30,8 @@ class Snowball
     
     def calculate_size
         @scale = @radius.to_f / @gfx.width
-        @offset_y = 0.5 * (@scale * @gfx.height)
+        @size = @scale * @gfx.width
+        @offset_y = 0.5 * @size
     end
 
     def update(dt)

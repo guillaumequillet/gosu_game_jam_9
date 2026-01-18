@@ -17,6 +17,6 @@ class SnowTile
     end
 
     def draw
-    
+        Gosu.draw_rect(@x, @y - @amount, Map::TILE_SIZE, @amount, Gosu::Color::WHITE)
     end
 end

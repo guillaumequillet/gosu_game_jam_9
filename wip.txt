@@ -1,0 +1,4 @@
+l'idée : faire la plus grosse boule de neige possible
+soit en temps limité, soit en énergie...
+
+parcours aléatoire
