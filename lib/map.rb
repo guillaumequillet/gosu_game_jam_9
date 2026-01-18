@@ -14,17 +14,13 @@ class Map
 
     def update(hero, snowball)
         # is snowball should be fed with snow_tiles ?
-        to_delete = []
-
         @snow_tiles.each do |snow_tile|
             if snow_tile.feeds_snowball?(snowball)
-                snowball.feed(snow_tile.amount)
-                to_delete.push snow_tile
                 break 
             end
         end
 
-        @snow_tiles.delete_if {|snow_tile| to_delete.include?(snow_tile)}
+        @snow_tiles.delete_if {|snow_tile| return snow_tile.to_delete?}
     end
 
     def generate_snow_tiles(qty)
@@ -32,7 +28,7 @@ class Map
     end
 
     def add_snow_tile
-        x, y, amount = @snow_tiles.size * TILE_SIZE, @floor, Gosu.random(2, 8)
+        x, y, amount = @snow_tiles.size * TILE_SIZE, @floor, Gosu.random(4, 20)
         @snow_tiles.push SnowTile.new(x, y, amount)
     end
 

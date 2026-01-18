@@ -4,7 +4,7 @@ class Hero
         @speed = 0.2
 
         @width = 32
-        @height = 64
+        @height = 32
 
         @keys = {
             right: [Gosu::KB_RIGHT, Gosu::KB_D],
