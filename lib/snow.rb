@@ -1,0 +1,50 @@
+class Snow
+    LIMIT = 300
+    def initialize(window, hero)
+        @window = window
+        @hero = hero
+        @particles = []
+    end
+
+    def update(dt)
+        if @particles.size < LIMIT
+            (LIMIT - @particles.size).times do 
+                x = Gosu.random(@hero.x - @window.width / 2 - 150, @hero.x + @window.width / 2 + 150)
+                y = -100
+                @particles.push SnowParticle.new(@window, x, y)
+            end
+        end
+
+        @particles.each {|particle| particle.update(dt)}
+
+        @particles.delete_if {|particle| particle.to_delete?}
+    end
+
+    def draw
+        @particles.each {|particle| particle.draw}
+    end
+end
+
+class SnowParticle
+    def initialize(window, x, y)
+        @window = window
+        @x, @y = x, y 
+        @angle = Gosu.random(140, 220)
+        @size = Gosu.random(1, 3)
+        @speed = Gosu.random(0.1, 0.2)
+    end
+
+    def to_delete?
+        return @y >= @window.height
+    end
+
+    def update(dt)
+        speed = @speed * dt
+        @x += Gosu.offset_x(@angle, speed)
+        @y += Gosu.offset_y(@angle, speed)
+    end
+
+    def draw
+        Gosu.draw_rect(@x - @size / 2, @y - @size / 2, @size, @size, Gosu::Color::WHITE)
+    end
+end
