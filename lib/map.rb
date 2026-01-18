@@ -7,7 +7,7 @@ class Map
         @snow_tiles = []
     end
 
-    def update
+    def update(hero, snowball)
 
     end
 

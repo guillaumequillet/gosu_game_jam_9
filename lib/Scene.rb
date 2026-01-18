@@ -23,6 +23,12 @@ class SceneTitle < Scene
     end
 end
 
+class SceneGameOver < Scene
+    def draw
+        @font.draw_text('GAME OVER SCREEN', 50, 50, 0)
+    end
+end
+
 class SceneGame < Scene
     def initialize(window)
         super(window)
@@ -31,13 +37,13 @@ class SceneGame < Scene
         @snowball = Snowball.new
     end
 
+    def update(dt)
+        @hero.update(dt)
+        @snowball.update(dt)
+        @map.update(@hero, @snowball)
+    end
+
     def draw
         @font.draw_text('GAME SCREEN', 50, 50, 0)
-    end
-end
-
-class SceneGameOver < Scene
-    def draw
-        @font.draw_text('GAME OVER SCREEN', 50, 50, 0)
     end
 end
