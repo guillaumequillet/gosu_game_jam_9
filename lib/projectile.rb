@@ -18,8 +18,7 @@ class Projectile
     end
 
     def outside?(camera)
-        return false # temp
-        return (@x >= camera.x + camera.window.width / 2) || (@x <= camera.x - camera.window.width / 2) || (@y >= camera.y + camera.window.height / 2) || (@y <= camera.y - camera.window.height / 2)
+        return (@y >= 1000 || @y <= -1000)
     end
 
     def draw

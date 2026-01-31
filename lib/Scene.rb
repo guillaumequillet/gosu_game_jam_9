@@ -50,18 +50,19 @@ class SceneGame < Scene
 
     def add_projectile(projectile)
         @projectiles.push projectile
-        p @projectiles.size
     end
 
     def update(dt)
         @hero.update(dt, @snowball)
         @camera.update(dt)
         @snowball.update(dt)
-        @map.update(@hero, @snowball)
+        @map.update(@hero, @snowball, dt)
         @snow.update(dt)
 
         @projectiles.each {|projectile| projectile.update(dt)}
         @projectiles.delete_if {|projectile| projectile.outside?(@camera)}
+
+        @window.caption = @projectiles.size
     end
 
     def draw
@@ -70,7 +71,7 @@ class SceneGame < Scene
             @snowball.draw
             @map.draw
             @projectiles.each {|projectile| projectile.draw}
-            # @snow.draw
+            @snow.draw
         end
     end
 end
