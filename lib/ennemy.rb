@@ -1,6 +1,8 @@
 class Ennemy
     Z_ORDER = 5
 
+    attr_reader :ko
+
     def initialize(map, x, y)
         @map = map
         @x, @y = x, y    
@@ -9,15 +11,16 @@ class Ennemy
         @scale = @map.get_perspective(@x, @y, @width)
 
         # projectile
-        @cooldown = 5000
-        @cooldown_tick = Gosu.milliseconds - Gosu.random(0, @cooldown)
-        @speed = 0.8
+        @cooldown = Gosu.random(1000, 2000)
+        @cooldown_tick = Gosu.milliseconds - Gosu.random(0, @cooldown) # to randomize the beginning of the attack
+        @range = 300
+        @speed = 0.7
         @ko = false
     end
     
     def update(dt)
         unless @ko
-            if Gosu.milliseconds - @cooldown_tick >= @cooldown
+            if (Gosu.distance(@x, @y, @map.scene.snowball.center_x, @map.scene.snowball.center_y) - @map.scene.snowball.radius <= @range) && (Gosu.milliseconds - @cooldown_tick >= @cooldown)
                 throw_ball
                 @cooldown_tick = Gosu.milliseconds
             end
@@ -40,11 +43,12 @@ class Ennemy
     def hit!
         # hit point
         @map.scene.attack_effect(@x, @y)
+        @map.scene.play_sound(:hit, 0.4, 0.7)
         @ko = true
-        p 'hit !'
     end
 
     def draw
-        Gosu.draw_rect(@x - @width * @scale / 2, @y - @height * @scale / 2, @width * @scale, @height * @scale, Gosu::Color::RED)
+        color = @ko ? Gosu::Color::RED : Gosu::Color::GREEN
+        Gosu.draw_rect(@x - @width * @scale / 2, @y - @height * @scale / 2, @width * @scale, @height * @scale, color)
     end
 end

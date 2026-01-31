@@ -1,6 +1,7 @@
 class Map
     TILE_SIZE = 32
-    MAP_LENGTH = 64
+    MAP_LENGTH = 256
+    ENNEMIES = 32
 
     attr_reader :scene, :ennemies
 
@@ -16,9 +17,11 @@ class Map
         generate_snow_tiles(MAP_LENGTH)
 
         @ennemies = []
-        @ennemies.push Ennemy.new(self, 0, 0)
-        @ennemies.push Ennemy.new(self, 30, 40)
-        @ennemies.push Ennemy.new(self, 120, 130)
+        ENNEMIES.times do
+            x = Gosu.random(0, MAP_LENGTH * TILE_SIZE)
+            y = Gosu.random(100, 200)
+            @ennemies.push Ennemy.new(self, x, y)
+        end
     end
 
     def get_perspective(position_x, position_y, size)
@@ -53,7 +56,7 @@ class Map
 
     def add_snow_tile
         x, y, amount = @snow_tiles.size * TILE_SIZE, @floor, 4
-        @snow_tiles.push SnowTile.new(x, y, amount)
+        @snow_tiles.push SnowTile.new(self, x, y, amount)
     end
 
     def draw

@@ -3,7 +3,8 @@ class SnowTile
     TEXTURE = Gosu::Image.load_tiles('gfx/snow_tiles.png', 32, 32, retro: true)
     
     attr_reader :amount
-    def initialize(x, y, amount)
+    def initialize(map, x, y, amount)
+        @map = map
         amount = amount.clamp(0, TEXTURE.size)
         @x, @y, @amount = x, y, amount
     end

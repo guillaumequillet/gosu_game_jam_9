@@ -27,6 +27,8 @@ class AttackEffect
 end
 
 class AttackParticle
+    Z_ORDER = 50
+    
     def initialize(x, y, angle, size)
         @x, @y = x, y 
         @angle = angle
@@ -51,6 +53,6 @@ class AttackParticle
     end
 
     def draw
-        Gosu.draw_rect(@x - @size / 2, @y - @size / 2, @size, @size, @color)
+        Gosu.draw_rect(@x - @size / 2, @y - @size / 2, @size, @size, @color, Z_ORDER)
     end
 end

@@ -27,6 +27,10 @@ class SceneGameOver < Scene
     def draw
         @font.draw_text('GAME OVER SCREEN', 50, 50, 0)
     end
+
+    def button_down(id)
+        @window.switch_scene(:game)
+    end
 end
 
 class SceneGame < Scene
@@ -64,6 +68,10 @@ class SceneGame < Scene
     
     def attack_effect(target_x, target_y)
         @attack_effects.push AttackEffect.new(target_x, target_y)
+    end
+
+    def game_over
+        @window.switch_scene(:game_over)
     end
 
     def update(dt)

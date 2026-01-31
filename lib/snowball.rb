@@ -4,7 +4,7 @@ class Snowball
     attr_reader :center_x, :center_y, :radius, :size
     def initialize(scene, center_x = 0, center_y = 0)
         @scene = scene
-        @min_radius, @max_radius = 8, 96
+        @min_radius, @max_radius = 16, 96
         @attack_radius = 4
         @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
@@ -66,10 +66,14 @@ class Snowball
 
         # reduce size if > min
         @radius -= @attack_radius
-        @radius = @radius.clamp(@min_radius, @max_radius)
+        @radius = @radius.clamp(0, @max_radius)
         calculate_size
 
         @scene.play_sound(:hit, 0.4, 0.7)
+
+        if @radius <= 0
+            @scene.game_over
+        end
     end
 
     def lerp(a, b, t)

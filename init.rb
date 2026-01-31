@@ -17,6 +17,14 @@ class Window < Gosu::Window
         @scene.button_down(id)
     end
 
+    def switch_scene(scene_type)
+        @scene = case scene_type
+        when :title then SceneTitle.new(self) 
+        when :game then SceneGame.new(self) 
+        when :game_over then SceneGameOver.new(self) 
+        end
+    end
+
     def update
         @dt ||= Gosu.milliseconds
         dt = Gosu.milliseconds - @dt
