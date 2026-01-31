@@ -2,7 +2,10 @@ class Map
     TILE_SIZE = 32
     MAP_LENGTH = 64
 
-    def initialize(floor)
+    attr_reader :scene
+
+    def initialize(scene, floor)
+        @scene = scene
         @floor = floor
 
         # we'll load some map from Tiled later

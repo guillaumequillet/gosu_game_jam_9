@@ -30,26 +30,41 @@ class SceneGameOver < Scene
 end
 
 class SceneGame < Scene
-    attr_reader :map
+    attr_reader :map, :snowball, :hero
 
     def initialize(window)
         super(window)
         @floor = @window.height / 1.5
-
-        @map = Map.new(@floor)
+        @map = Map.new(self, @floor)
         @hero = Hero.new(self, 32, @floor)
         @camera = Camera.new(@window, @hero)
-        @snowball = Snowball.new(100, @floor)
+        @snowball = Snowball.new(self, 100, @floor)
         @snow = Snow.new(window, @hero)
         @projectiles = []
+        @attack_effects = []
+
+        @sfx = {
+            hit: Gosu::Sample.new('sfx/hit.mp3'),
+            slide: Gosu::Sample.new('sfx/slide.mp3'),
+            throw: Gosu::Sample.new('sfx/throw.mp3')
+        }
     end
 
     def button_down(id)
         @hero.button_down(id)
     end
 
+    def play_sound(sound, volume = 1, speed = 1, looping = false)
+        @sfx[sound].play(volume, speed, looping)
+    end
+
     def add_projectile(projectile)
         @projectiles.push projectile
+    end
+    
+    def attack_effect(target_x, target_y)
+        p "attack !"
+        @attack_effects.push AttackEffect.new(target_x, target_y)
     end
 
     def update(dt)
@@ -62,7 +77,8 @@ class SceneGame < Scene
         @projectiles.each {|projectile| projectile.update(dt)}
         @projectiles.delete_if {|projectile| projectile.outside?(@camera)}
 
-        @window.caption = @projectiles.size
+        @attack_effects.each {|attack_effect| attack_effect.update(dt)}
+        @attack_effects.delete_if {|attack_effect| attack_effect.to_delete?}
     end
 
     def draw
@@ -71,7 +87,8 @@ class SceneGame < Scene
             @snowball.draw
             @map.draw
             @projectiles.each {|projectile| projectile.draw}
-            @snow.draw
+            @attack_effects.each {|attack_effect| attack_effect.draw}
+            # @snow.draw
         end
     end
 end

@@ -1,9 +1,11 @@
 class Snowball
     Z_ORDER = 3
 
-    attr_reader :center_x, :size
-    def initialize(center_x = 0, center_y = 0)
-        @min_radius, @max_radius = 8, 80
+    attr_reader :center_x, :center_y, :radius, :size
+    def initialize(scene, center_x = 0, center_y = 0)
+        @scene = scene
+        @min_radius, @max_radius = 8, 96
+        @attack_radius = 4
         @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
         @speed = 0
@@ -56,6 +58,20 @@ class Snowball
         end
     end
     
+    def hit!
+        # hit point
+        target_x = @center_x
+        target_y = @center_y - @radius
+        @scene.attack_effect(target_x, target_y)
+
+        # reduce size if > min
+        @radius -= @attack_radius
+        @radius = @radius.clamp(@min_radius, @max_radius)
+        calculate_size
+
+        @scene.play_sound(:hit, 0.4, 0.7)
+    end
+
     def lerp(a, b, t)
         a + (b - a) * t
     end

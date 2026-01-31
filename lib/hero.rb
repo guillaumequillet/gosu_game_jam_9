@@ -13,7 +13,7 @@ class Hero
         @height = 32
 
         @keys = {
-            grip: [Gosu::KB_SPACE],
+            grip: [Gosu::KB_DOWN, Gosu::KB_S],
             right: [Gosu::KB_RIGHT, Gosu::KB_D],
             left: [Gosu::KB_LEFT, Gosu::KB_A],
             throw: [Gosu::KB_UP, Gosu::KB_W]
@@ -56,6 +56,7 @@ class Hero
     def throw_ball
         @throwing = true
         @scene.add_projectile(Projectile.new(@scene.map, @x, @y, @x, -1000, @throwing_speed))
+        @scene.play_sound(:throw, 0.4)
     end
 
     def draw
