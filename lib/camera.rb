@@ -1,4 +1,5 @@
 class Camera
+    attr_reader :x, :y, :window
     def initialize(window, target)
         @window = window
         @target = target

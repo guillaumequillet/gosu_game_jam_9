@@ -30,15 +30,27 @@ class SceneGameOver < Scene
 end
 
 class SceneGame < Scene
+    attr_reader :map
+
     def initialize(window)
         super(window)
         @floor = @window.height / 1.5
 
         @map = Map.new(@floor)
-        @hero = Hero.new(32, @floor)
+        @hero = Hero.new(self, 32, @floor)
         @camera = Camera.new(@window, @hero)
         @snowball = Snowball.new(100, @floor)
         @snow = Snow.new(window, @hero)
+        @projectiles = []
+    end
+
+    def button_down(id)
+        @hero.button_down(id)
+    end
+
+    def add_projectile(projectile)
+        @projectiles.push projectile
+        p @projectiles.size
     end
 
     def update(dt)
@@ -47,6 +59,9 @@ class SceneGame < Scene
         @snowball.update(dt)
         @map.update(@hero, @snowball)
         @snow.update(dt)
+
+        @projectiles.each {|projectile| projectile.update(dt)}
+        @projectiles.delete_if {|projectile| projectile.outside?(@camera)}
     end
 
     def draw
@@ -54,7 +69,8 @@ class SceneGame < Scene
             @hero.draw
             @snowball.draw
             @map.draw
-            @snow.draw
+            @projectiles.each {|projectile| projectile.draw}
+            # @snow.draw
         end
     end
 end

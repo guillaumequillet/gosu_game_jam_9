@@ -1,8 +1,9 @@
 class Hero
-    Z_ORDER = 4
+    Z_ORDER = 5
 
     attr_reader :x, :y
-    def initialize(x = 0, y = 0)
+    def initialize(scene, x = 0, y = 0)
+        @scene = scene
         @x, @y = x, y
         @min_speed = 0.0
         @max_speed = 0.15
@@ -14,31 +15,47 @@ class Hero
         @keys = {
             grip: [Gosu::KB_SPACE],
             right: [Gosu::KB_RIGHT, Gosu::KB_D],
-            left: [Gosu::KB_LEFT, Gosu::KB_A]
+            left: [Gosu::KB_LEFT, Gosu::KB_A],
+            throw: [Gosu::KB_UP, Gosu::KB_W]
         }
+
+        @throwing = false
+        @throwing_speed = 0.5
     end
 
     def button_down(id)
-    
+        unless @throwing
+            throw_ball if @keys[:throw].any?{|key| key == id}
+        end
     end
 
     def update(dt, snowball)
-        # movement
-        speed = @speed * dt
-        move(speed)  if @keys[:right].any?{|key| Gosu.button_down?(key)}
-        move(-speed) if @keys[:left].any?{|key| Gosu.button_down?(key)}
-
-        # snowball interaction
-        if @keys[:grip].any?{|key| Gosu.button_down?(key)} && snowball.collides_hero?(@x)
-            snowball.hero_push(speed)  if @keys[:right].any?{|key| Gosu.button_down?(key)}
-            snowball.hero_push(-speed) if @keys[:left].any?{|key| Gosu.button_down?(key)}
+        if @throwing
+            # todo : animate the player
+            @throwing = false
         else
-            snowball.slowdown  
+            # movement
+            speed = @speed * dt
+            move(speed)  if @keys[:right].any?{|key| Gosu.button_down?(key)}
+            move(-speed) if @keys[:left].any?{|key| Gosu.button_down?(key)}
+
+            # snowball interaction
+            if @keys[:grip].any?{|key| Gosu.button_down?(key)} && snowball.collides_hero?(@x)
+                snowball.hero_push(speed)  if @keys[:right].any?{|key| Gosu.button_down?(key)}
+                snowball.hero_push(-speed) if @keys[:left].any?{|key| Gosu.button_down?(key)}
+            else
+                snowball.slowdown  
+            end
         end
     end
 
     def move(speed)
         @x += speed
+    end
+
+    def throw_ball
+        @throwing = true
+        @scene.add_projectile(Projectile.new(@scene.map, @x, @y, @x, -1000, @throwing_speed))
     end
 
     def draw

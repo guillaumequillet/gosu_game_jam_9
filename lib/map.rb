@@ -13,6 +13,16 @@ class Map
         generate_snow_tiles(MAP_LENGTH)
     end
 
+    def get_perspective(position_x, position_y, size)
+        horizon_y = 100
+        first_plan_y = @floor
+        scale_min = 0.6
+        scale_max = 1.0
+
+        ratio = ((position_y - horizon_y) / (first_plan_y - horizon_y)).clamp(0.0, 1.0)
+        return (scale_min + (scale_max - scale_min) * (ratio * ratio)).round(3)
+    end
+
     def update(hero, snowball)
         # is snowball should be fed with snow_tiles ?
         if snowball.hero_push?
