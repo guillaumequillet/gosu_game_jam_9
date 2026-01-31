@@ -21,18 +21,16 @@ class Projectile
         # we test collisions against each ennemy
         if @from == :hero
             @map.ennemies.each do |ennemy|
-                if ennemy.hit?(x, y, w, h)
-                    x, y = @x, @y
-                    w, h = @scale * IMAGE.width, @scale * IMAGE.height
-                    @to_destroy = true
-                    ennemy.hit!
+                if ennemy.hit?(@x, @y, (@size * @scale) / 2)
+                    @to_destroy = true # we mark the projectile as to destroy
+                    ennemy.hit! # we hit the ennemy
                 end
             end
         # we test collisions againt the snowball
         else
             if Gosu.distance(@x, @y, @map.scene.snowball.center_x, @map.scene.snowball.center_y) <= @map.scene.snowball.radius
-                @map.scene.snowball.hit!
-                @to_destroy = true
+                @map.scene.snowball.hit! # we hit the snowball
+                @to_destroy = true # we mark the projectile as to destroy
             end
         end
     end

@@ -55,7 +55,7 @@ class Hero
 
     def throw_ball
         @throwing = true
-        @scene.add_projectile(Projectile.new(@scene.map, @x, @y, @x, -1000, @throwing_speed))
+        @scene.add_projectile(Projectile.new(@scene.map, @x, @y, @x, -1000, @throwing_speed, :hero))
         @scene.play_sound(:throw, 0.4)
     end
 

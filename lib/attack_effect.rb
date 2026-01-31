@@ -31,8 +31,8 @@ class AttackParticle
         @x, @y = x, y 
         @angle = angle
         @size = size
-        @speed = Gosu.random(0.1, 0.4)
-        @alpha_speed = Gosu.random(0.6, 2.0)
+        @speed = Gosu.random(0.01, 0.2)
+        @alpha_speed = Gosu.random(0.6, 1.0)
         @alpha = 255
         @color = Gosu::Color.new(@alpha, 255, 255, 255)
     end

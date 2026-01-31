@@ -63,7 +63,6 @@ class SceneGame < Scene
     end
     
     def attack_effect(target_x, target_y)
-        p "attack !"
         @attack_effects.push AttackEffect.new(target_x, target_y)
     end
 

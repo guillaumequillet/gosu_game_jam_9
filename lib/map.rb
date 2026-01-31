@@ -2,7 +2,7 @@ class Map
     TILE_SIZE = 32
     MAP_LENGTH = 64
 
-    attr_reader :scene
+    attr_reader :scene, :ennemies
 
     def initialize(scene, floor)
         @scene = scene

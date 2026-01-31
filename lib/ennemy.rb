@@ -9,7 +9,7 @@ class Ennemy
         @scale = @map.get_perspective(@x, @y, @width)
 
         # projectile
-        @cooldown = 1000
+        @cooldown = 5000
         @cooldown_tick = Gosu.milliseconds - Gosu.random(0, @cooldown)
         @speed = 0.8
         @ko = false
@@ -32,11 +32,14 @@ class Ennemy
         @map.scene.play_sound(:throw, 0.2)
     end
 
-    def hit?(x, y, w, h)
-        return x >= @x - (@width * @scale) / 2 && x + w >= @x + (@width * @scale) / 2 && y >= @y - (@height * @scale) / 2 && y <= @y + (@height * @scale) / 2
+    def hit?(x, y, radius)
+        radius2 = [@width, @height].max / 2.0
+        return Gosu.distance(@x, @y, x, y) <= (radius + radius2) 
     end
 
     def hit!
+        # hit point
+        @map.scene.attack_effect(@x, @y)
         @ko = true
         p 'hit !'
     end
