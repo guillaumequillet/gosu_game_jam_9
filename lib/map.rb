@@ -1,7 +1,7 @@
 class Map
     TILE_SIZE = 32
     MAP_LENGTH = 256
-    ENNEMIES = 32
+    ENNEMIES = 40
 
     attr_reader :scene, :ennemies
 
@@ -17,9 +17,16 @@ class Map
         generate_snow_tiles(MAP_LENGTH)
 
         @ennemies = []
+        generate_ennemies
+    end
+
+    def generate_ennemies
+        beginning = 10 # distance to understand the mechanics
+        distance_between_ennemies = (((MAP_LENGTH - beginning) * TILE_SIZE) / ENNEMIES).floor
+        x = TILE_SIZE * beginning
         ENNEMIES.times do
-            x = Gosu.random(0, MAP_LENGTH * TILE_SIZE)
-            y = Gosu.random(100, 200)
+            x += distance_between_ennemies
+            y = Gosu.random(0, 150)
             @ennemies.push Ennemy.new(self, x, y)
         end
     end
@@ -48,6 +55,12 @@ class Map
 
         # ennemies
         @ennemies.each {|ennemy| ennemy.update(dt)}
+
+        # has hero reached the end ?
+        if snowball.center_x + snowball.radius >= MAP_LENGTH * TILE_SIZE
+            $score = snowball.radius
+            @scene.window.switch_scene(:victory)
+        end
     end
 
     def generate_snow_tiles(qty)
@@ -60,9 +73,15 @@ class Map
     end
 
     def draw
+        draw_sky
         draw_floor
         @snow_tiles.each {|snow_tile| snow_tile.draw}
         @ennemies.each {|ennemy| ennemy.draw}
+    end
+
+    def draw_sky
+        color = Gosu::Color.new(255, 8, 112, 151)
+        Gosu.draw_rect(-@scene.window.width, -@scene.window.height, @scene.window.width * 2 + MAP_LENGTH * TILE_SIZE, @scene.window.height * 2, color)
     end
 
     def draw_floor

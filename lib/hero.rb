@@ -5,6 +5,7 @@ class Hero
     def initialize(scene, x = 0, y = 0)
         @scene = scene
         @x, @y = x, y
+        @floor = @y
         @min_speed = 0.0
         @max_speed = 0.15
         @speed = @max_speed
@@ -13,10 +14,10 @@ class Hero
         @height = 32
 
         @keys = {
-            grip: [Gosu::KB_DOWN, Gosu::KB_S],
+            grip: [Gosu::KB_SPACE],
             right: [Gosu::KB_RIGHT, Gosu::KB_D],
             left: [Gosu::KB_LEFT, Gosu::KB_A],
-            throw: [Gosu::KB_UP, Gosu::KB_W]
+            throw: [Gosu::KB_UP, Gosu::KB_S]
         }
 
         @throwing = false
@@ -25,7 +26,9 @@ class Hero
 
     def button_down(id)
         unless @throwing
-            throw_ball if @keys[:throw].any?{|key| key == id}
+            if @keys[:throw].any?{|key| key == id}
+                throw_ball
+            end
         end
     end
 

@@ -22,6 +22,7 @@ class Window < Gosu::Window
         when :title then SceneTitle.new(self) 
         when :game then SceneGame.new(self) 
         when :game_over then SceneGameOver.new(self) 
+        when :victory then SceneVictory.new(self) 
         end
     end
 

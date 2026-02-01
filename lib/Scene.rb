@@ -33,8 +33,18 @@ class SceneGameOver < Scene
     end
 end
 
+class SceneVictory < Scene
+    def draw
+        @font.draw_text('VICTORY SCREEN', 50, 50, 0)
+    end
+
+    def button_down(id)
+        @window.switch_scene(:game)
+    end
+end
+
 class SceneGame < Scene
-    attr_reader :map, :snowball, :hero
+    attr_reader :window, :camera, :map, :snowball, :hero
 
     def initialize(window)
         super(window)

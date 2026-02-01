@@ -1,22 +1,19 @@
 class Snowball
     Z_ORDER = 3
 
-    attr_reader :center_x, :center_y, :radius, :size
+    attr_reader :center_x, :center_y, :radius, :max_radius, :size
     def initialize(scene, center_x = 0, center_y = 0)
         @scene = scene
-        @min_radius, @max_radius = 16, 96
+        @min_radius, @max_radius = 32, 96
         @attack_radius = 4
         @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
         @speed = 0
+        @melting_speed = 0.01
         @speed_sign = nil
         @hero_push = false
         @gfx = Gosu::Image.new('gfx/snowball.png', retro: true)
         calculate_size
-    end
-
-    def button_down(id)
-    
     end
 
     def collides_hero?(push_x)
@@ -87,6 +84,10 @@ class Snowball
     end
 
     def update(dt)
+        # melting if not moving
+        @radius -= @melting_speed * dt if @speed == 0
+        @scene.game_over if @radius <= 0
+
         # dimension
         calculate_size
 
