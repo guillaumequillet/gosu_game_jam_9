@@ -119,11 +119,13 @@ class Hero
     end
 
     def throw_ball
-        @orientation = 1
-        @throwing = true
-        @throwing_tick = Gosu.milliseconds
-        @scene.add_projectile(Projectile.new(@scene.map, @x, @y, @x, -1000, @throwing_speed, :hero))
-        @scene.play_sound(:throw, 0.4)
+        unless @scene.snowball.collides_hero?(@x) # can't throw if in front of the ball
+            @orientation = 1
+            @throwing = true
+            @throwing_tick = Gosu.milliseconds
+            @scene.add_projectile(Projectile.new(@scene.map, @x, @y, @x, -1000, @throwing_speed, :hero))
+            @scene.play_sound(:throw, 0.4)
+        end
     end
 
     def draw
