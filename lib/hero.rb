@@ -54,6 +54,8 @@ class Hero
 
     def move(speed)
         @x += speed
+
+        @x = 16 if @x < 16
     end
 
     def throw_ball

@@ -4,7 +4,7 @@ class Snowball
     attr_reader :center_x, :center_y, :radius, :max_radius, :size
     def initialize(scene, center_x = 0, center_y = 0)
         @scene = scene
-        @min_radius, @max_radius = 32, 96
+        @min_radius, @max_radius = 64, 96
         @attack_radius = 4
         @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
@@ -94,6 +94,11 @@ class Snowball
         # movement
         @center_x += @speed
         @angle += @speed * 0.8
+
+        if @center_x - @radius < 0
+            @center_x = 0 + @radius
+            @angle = 0
+        end
     end
 
     def draw

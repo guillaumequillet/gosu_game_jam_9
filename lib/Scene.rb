@@ -59,7 +59,6 @@ class SceneGame < Scene
 
         @sfx = {
             hit: Gosu::Sample.new('sfx/hit.mp3'),
-            slide: Gosu::Sample.new('sfx/slide.mp3'),
             throw: Gosu::Sample.new('sfx/throw.mp3')
         }
     end
@@ -105,7 +104,7 @@ class SceneGame < Scene
             @map.draw
             @projectiles.each {|projectile| projectile.draw}
             @attack_effects.each {|attack_effect| attack_effect.draw}
-            # @snow.draw
+            @snow.draw
         end
     end
 end

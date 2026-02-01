@@ -11,9 +11,9 @@ class Ennemy
         @scale = @map.get_perspective(@x, @y, @width)
 
         # projectile
-        @cooldown = Gosu.random(1000, 2000)
+        @cooldown = Gosu.random(400, 1000)
         @cooldown_tick = Gosu.milliseconds - Gosu.random(0, @cooldown) # to randomize the beginning of the attack
-        @range = 400
+        @range = 300
         @speed = 0.7
         @ko = false
     end

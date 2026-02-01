@@ -1,7 +1,7 @@
 class Map
     TILE_SIZE = 32
-    MAP_LENGTH = 256
-    ENNEMIES = 40
+    MAP_LENGTH = 128
+    ENNEMIES = 30
 
     attr_reader :scene, :ennemies
 
@@ -9,9 +9,9 @@ class Map
         @scene = scene
         @floor = floor
 
-        # we'll load some map from Tiled later
-        @tiles = []
-        
+        @road_tiles = []
+        load_road_tiles
+
         # to contain snow that will be collected 
         @snow_tiles = []
         generate_snow_tiles(MAP_LENGTH)
@@ -20,13 +20,31 @@ class Map
         generate_ennemies
     end
 
+    def load_road_tiles
+        last_tile = nil
+        @road_tileset = Gosu::Image.load_tiles('gfx/road_tiles.png', 128, 96, { retro: true, tileable: true })
+        ((MAP_LENGTH * TILE_SIZE) / 128).floor.times do |x|
+            tile = Gosu.random(0, 10).floor < 2 ? 1 : 0
+
+            # to prevent two pedestrian walkways next to each other
+            tile = 0 if last_tile == 1
+            last_tile = tile
+
+            @road_tiles.push [x * 128, tile]
+        end
+
+        # interface
+        @interface = Gosu::Image.new('gfx/interface.png', retro: true)
+        @goal = Gosu::Image.new('gfx/goal.png', retro: true)
+    end
+
     def generate_ennemies
         beginning = 10 # distance to understand the mechanics
         distance_between_ennemies = (((MAP_LENGTH - beginning) * TILE_SIZE) / ENNEMIES).floor
         x = TILE_SIZE * beginning
         ENNEMIES.times do
             x += distance_between_ennemies
-            y = Gosu.random(0, 150)
+            y = Gosu.random(10, 50)
             @ennemies.push Ennemy.new(self, x, y)
         end
     end
@@ -85,6 +103,11 @@ class Map
     end
 
     def draw_floor
-        Gosu.draw_rect(0, @floor, 640, 480 - @floor, Gosu::Color::BLUE)
+        @interface.draw(-@interface.width, -62, 1000)
+        @goal.draw(MAP_LENGTH * TILE_SIZE, -62, 1000)
+
+        @road_tiles.each do |x, tile|
+            @road_tileset[tile].draw(x, @floor, 10)
+        end
     end
 end

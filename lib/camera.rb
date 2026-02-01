@@ -1,5 +1,5 @@
 class Camera
-    attr_reader :x, :y, :window
+    attr_reader :x, :y, :window, :height
     def initialize(window, target)
         @window = window
         @target = target
@@ -12,7 +12,7 @@ class Camera
         target_x = @target.x - @window.width / 2 + @offset_x
         target_y = @target.y - @window.height + @height
         @x = lerp(@x, target_x, 0.1)
-        @y = lerp(@y, target_y, 0.1)
+        @y = target_y
     end
 
     def lerp(a, b, t)

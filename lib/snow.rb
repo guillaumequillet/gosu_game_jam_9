@@ -49,6 +49,7 @@ class SnowParticle
     end
 
     def draw
-        Gosu.draw_rect(@x - @size / 2, @y - @size / 2, @size, @size, Gosu::Color::WHITE)
+        color = Gosu::Color.new(128, 255, 255, 255)
+        Gosu.draw_rect(@x - @size / 2, @y - @size / 2, @size, @size, color, 20)
     end
 end
