@@ -11,6 +11,8 @@ class Projectile
         @size = IMAGE.width * 2
         @from = from
         @to_destroy = false
+        @last_positions = []
+        @max_last_positions = 20
     end
 
     def update(dt)
@@ -33,6 +35,11 @@ class Projectile
                 @to_destroy = true # we mark the projectile as to destroy
             end
         end
+
+        # last_positions
+        @last_positions.shift if @last_positions.size > @max_last_positions
+        
+        @last_positions.push [@x, @y, @scale]
     end
 
     def outside?(camera)
@@ -40,6 +47,12 @@ class Projectile
     end
 
     def draw
-        IMAGE.draw_rot(@x, @y, Z_ORDER, 0, 0.5, 0.5, @scale, @scale)
+        @last_positions.each_with_index do |last_position, i|
+            x, y, scale = *last_position
+            alpha = ((255 / @last_positions.size * 0.3) * i).floor
+            alpha = 255 if i == @last_positions.size - 1
+            color = Gosu::Color.new(alpha, 255, 255, 255)
+            IMAGE.draw_rot(x, y, Z_ORDER, 0, 0.5, 0.5, scale, scale, color)
+        end
     end
 end

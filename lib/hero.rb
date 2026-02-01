@@ -1,5 +1,5 @@
 class Hero
-    Z_ORDER = 5
+    Z_ORDER = 1000
 
     attr_reader :x, :y
     def initialize(scene, x = 0, y = 0)
@@ -10,8 +10,11 @@ class Hero
         @max_speed = 0.15
         @speed = @max_speed
 
-        @width = 32
-        @height = 32
+        @width = 128
+        @height = 128
+        @scale = 0.6
+
+        @sprites = Gosu::Image.load_tiles('gfx/player.png', @width, @height, retro: true)
 
         @keys = {
             grip: [Gosu::KB_SPACE],
@@ -20,12 +23,13 @@ class Hero
             throw: [Gosu::KB_UP, Gosu::KB_S]
         }
 
+        @gripping = false
         @throwing = false
         @throwing_speed = 0.5
     end
 
     def button_down(id)
-        unless @throwing
+        unless @throwing || @gripping
             if @keys[:throw].any?{|key| key == id}
                 throw_ball
             end
@@ -44,9 +48,11 @@ class Hero
 
             # snowball interaction
             if @keys[:grip].any?{|key| Gosu.button_down?(key)} && snowball.collides_hero?(@x)
+                @gripping = true
                 snowball.hero_push(speed)  if @keys[:right].any?{|key| Gosu.button_down?(key)}
                 snowball.hero_push(-speed) if @keys[:left].any?{|key| Gosu.button_down?(key)}
             else
+                @gripping = false
                 snowball.slowdown  
             end
         end
@@ -65,7 +71,10 @@ class Hero
     end
 
     def draw
-        Gosu.draw_rect(@x - @width / 2, @y - @height, @width, @height, Gosu::Color::GREEN, Z_ORDER)
-        Gosu.draw_rect(@x - 2, @y - 2, 4, 4, Gosu::Color::RED, Z_ORDER)
+        frame = 0
+
+        @sprites[frame].draw_rot(@x, @y, Z_ORDER, 0.0, 0.5, 1.0, @scale, @scale)
+        # Gosu.draw_rect(@x - @width / 2, @y - @height, @width, @height, Gosu::Color::GREEN, Z_ORDER)
+        # Gosu.draw_rect(@x - 2, @y - 2, 4, 4, Gosu::Color::RED, Z_ORDER)
     end
 end
