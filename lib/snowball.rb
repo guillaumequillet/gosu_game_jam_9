@@ -18,8 +18,7 @@ class Snowball
     end
 
     def collides_hero?(push_x)
-        tolerance = @size * 0.3
-        return (push_x >= @center_x - tolerance && push_x <= @center_x + tolerance)
+        return Gosu.distance(@center_x, @center_y, push_x, @center_y) <= @radius
     end
 
     def hero_push(speed)
@@ -86,7 +85,7 @@ class Snowball
 
     def update(dt)
         # melting if not moving
-        # @radius -= @melting_speed * dt if @speed == 0
+        @radius -= @melting_speed * dt if @speed == 0
         @scene.game_over if @radius <= 0
 
         # dimension
