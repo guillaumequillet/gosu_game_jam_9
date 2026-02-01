@@ -1,6 +1,6 @@
 class Map
     TILE_SIZE = 32
-    MAP_LENGTH = 128
+    MAP_LENGTH = 256
     ENNEMIES = 30
 
     attr_reader :scene, :ennemies
@@ -10,6 +10,7 @@ class Map
         @floor = floor
 
         @road_tiles = []
+        @bg_tiles = []
         load_road_tiles
 
         # to contain snow that will be collected 
@@ -31,6 +32,11 @@ class Map
             last_tile = tile
 
             @road_tiles.push [x * 128, tile]
+        end
+
+        @background = Gosu::Image.new('gfx/background.png', retro: true)
+        ((MAP_LENGTH * TILE_SIZE) / 300).floor.times do |x|
+            @bg_tiles.push (x * 300)
         end
 
         # interface
@@ -103,11 +109,16 @@ class Map
     end
 
     def draw_floor
-        @interface.draw(-@interface.width, -62, 1000)
-        @goal.draw(MAP_LENGTH * TILE_SIZE, -62, 1000)
+        @interface.draw(-@interface.width, -64, 1000)
+        @goal.draw(MAP_LENGTH * TILE_SIZE, -64, 1000)
 
         @road_tiles.each do |x, tile|
             @road_tileset[tile].draw(x, @floor, 10)
+        end
+
+        @bg_tiles.each do |x|
+            darken = 100
+            @background.draw(x, 10, 0, 1, 1, Gosu::Color.new(255, darken, darken, darken))
         end
     end
 end

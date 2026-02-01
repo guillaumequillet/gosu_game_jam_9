@@ -8,7 +8,7 @@ class Projectile
         @x, @y = source_x, source_y
         @angle = Gosu.angle(source_x, source_y, dest_x, dest_y)
         @speed = speed
-        @size = IMAGE.width
+        @size = IMAGE.width * 2
         @from = from
         @to_destroy = false
     end
