@@ -50,7 +50,7 @@ class Map
         x = TILE_SIZE * beginning
         ENNEMIES.times do
             x += distance_between_ennemies
-            y = Gosu.random(10, 50)
+            y = Gosu.random(20, 50)
             @ennemies.push Ennemy.new(self, x, y)
         end
     end
@@ -66,6 +66,9 @@ class Map
     end
 
     def update(hero, snowball, dt)
+        # ennemies
+        @ennemies.each {|ennemy| ennemy.update(dt)}
+ 
         # is snowball should be fed with snow_tiles ?
         if snowball.hero_push?
             @snow_tiles.each do |snow_tile|
@@ -75,15 +78,6 @@ class Map
             end
 
             @snow_tiles.delete_if {|snow_tile| return snow_tile.to_delete?}
-        end
-
-        # ennemies
-        @ennemies.each {|ennemy| ennemy.update(dt)}
-
-        # has hero reached the end ?
-        if snowball.center_x + snowball.radius >= MAP_LENGTH * TILE_SIZE
-            $snowball_score += (snowball.radius).floor * 10
-            @scene.window.switch_scene(:victory)
         end
     end
 

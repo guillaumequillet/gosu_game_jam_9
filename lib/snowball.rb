@@ -99,6 +99,12 @@ class Snowball
             @center_x = 0 + @radius
             @angle = 0
         end
+
+        # has snowball reached the end ?
+        if @center_x >= Map::MAP_LENGTH * Map::TILE_SIZE
+            $snowball_score += (@radius).floor * 10
+            @scene.window.switch_scene(:victory)
+        end
     end
 
     def draw

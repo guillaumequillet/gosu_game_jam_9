@@ -14,8 +14,8 @@ class Ennemy
         @sprites = Gosu::Image.load_tiles('gfx/ennemy.png', @width, @height, retro: true)
 
         # projectile
-        @cooldown = Gosu.random(400, 1000)
-        @cooldown_tick = Gosu.milliseconds - Gosu.random(0, @cooldown) # to randomize the beginning of the attack
+        @cooldown = Gosu.random(200, 600)
+        @cooldown_tick = Gosu.milliseconds
         @range = 400
         @speed = 0.7
         @ko = false
@@ -26,13 +26,15 @@ class Ennemy
     
     def update(dt)
         unless @ko
-            if @throwing && Gosu.milliseconds - @throwing_tick >= @throwing_duration
-                @throwing = false
+            if !@throwing && (Gosu.distance(@x, @y, @map.scene.snowball.center_x, @map.scene.snowball.center_y) <= @range) && (Gosu.milliseconds - @cooldown_tick >= @cooldown)
+                throw_ball
+                @cooldown = Gosu.random(200, 600)
+                @cooldown_tick = Gosu.milliseconds
             end
 
-            if (Gosu.distance(@x, @y, @map.scene.snowball.center_x, @map.scene.snowball.center_y) - @map.scene.snowball.radius <= @range) && (Gosu.milliseconds - @cooldown_tick >= @cooldown)
-                throw_ball
-                @cooldown_tick = Gosu.milliseconds
+            # animation
+            if @throwing && Gosu.milliseconds - @throwing_tick >= @throwing_duration
+                @throwing = false
             end
         end
     end
