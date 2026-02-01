@@ -5,7 +5,7 @@ Dir.glob("lib/*.rb").each {|fn| require_relative(fn)}
 class Window < Gosu::Window
     def initialize
         super(640, 480, false)
-        self.caption = 'Gosu Game Jam 9'
+        self.caption = 'SNOWBALL ! (Gosu Game Jam 9 - growing)'
         @scene = SceneGame.new(self)
         @music = Gosu::Song.new('sfx/that-game-arcade-short-236108.mp3')
         @music.volume = 0.05

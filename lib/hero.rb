@@ -110,8 +110,6 @@ class Hero
                 @frame = @gripping ? (3 + @subframe) : (5 + @subframe)
             end
         end
-
-        @scene.window.caption = "gripping : #{@gripping} moving : #{@moving} throwing : #{@throwing}"
     end
 
     def move(speed)
