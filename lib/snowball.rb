@@ -13,6 +13,7 @@ class Snowball
         @speed_sign = nil
         @hero_push = false
         @gfx = Gosu::Image.new('gfx/snowball.png', retro: true)
+        @max_gfx = Gosu::Image.new('gfx/max.png', retro: true)
         calculate_size
     end
 
@@ -85,7 +86,7 @@ class Snowball
 
     def update(dt)
         # melting if not moving
-        @radius -= @melting_speed * dt if @speed == 0
+        # @radius -= @melting_speed * dt if @speed == 0
         @scene.game_over if @radius <= 0
 
         # dimension
@@ -103,5 +104,6 @@ class Snowball
 
     def draw
         @gfx.draw_rot(@center_x, @center_y - @offset_y, Z_ORDER, @angle, 0.5, 0.5, @scale, @scale)
+        @max_gfx.draw_rot(@center_x, @center_y - @offset_y, Z_ORDER, 0, 0.5, 0.5) if @radius == @max_radius
     end
 end

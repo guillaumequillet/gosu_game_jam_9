@@ -1,7 +1,7 @@
 class Map
     TILE_SIZE = 32
-    MAP_LENGTH = 128
-    ENNEMIES = 30
+    MAP_LENGTH = 160
+    ENNEMIES = 20
 
     attr_reader :scene, :ennemies
 
