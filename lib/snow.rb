@@ -34,7 +34,7 @@ class SnowParticle
         @window = window
         @x, @y = x, y 
         @angle = Gosu.random(140, 220)
-        @size = Gosu.random(1, 3)
+        @size = Gosu.random(2, 5)
         @speed = Gosu.random(0.1, 0.2)
     end
 

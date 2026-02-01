@@ -17,25 +17,17 @@ class Scene
     end
 end
 
-class SceneTitle < Scene
-    def draw
-        @font.draw_text('TITLE SCREEN', 50, 50, 0)
-    end
-end
-
-class SceneGameOver < Scene
-    def draw
-        @font.draw_text('GAME OVER SCREEN', 50, 50, 0)
-    end
-
-    def button_down(id)
-        @window.switch_scene(:game)
-    end
-end
-
 class SceneVictory < Scene
+    def initialize(window)
+        super(window)
+        @gfx = Gosu::Image.new('gfx/finished.png', retro: true)
+    end
+
     def draw
-        @font.draw_text('VICTORY SCREEN', 50, 50, 0)
+        @gfx.draw(0, 0, 0)
+        @font.draw_text("Snowball Score : #{$snowball_score}", 200, 180, 0, 1, 1, Gosu::Color::BLACK)
+        @font.draw_text("Ennemy Score : #{$ennemy_score}", 200, 210, 0, 1, 1, Gosu::Color::BLACK)
+        @font.draw_text("TOTAL SCORE : #{$ennemy_score + $snowball_score}", 90, 260, 0, 2, 2, Gosu::Color::BLACK)
     end
 
     def button_down(id)
@@ -48,6 +40,14 @@ class SceneGame < Scene
 
     def initialize(window)
         super(window)
+        @sfx = {
+            hit: Gosu::Sample.new('sfx/hit.mp3'),
+            throw: Gosu::Sample.new('sfx/throw.mp3')
+        }
+        reset
+    end
+    
+    def reset
         @floor = @window.height / 1.5
         @map = Map.new(self, @floor)
         @hero = Hero.new(self, 32, @floor)
@@ -55,12 +55,9 @@ class SceneGame < Scene
         @snowball = Snowball.new(self, 100, @floor)
         @snow = Snow.new(window, @hero)
         @projectiles = []
-        @attack_effects = []
-
-        @sfx = {
-            hit: Gosu::Sample.new('sfx/hit.mp3'),
-            throw: Gosu::Sample.new('sfx/throw.mp3')
-        }
+        @attack_effects = []        
+        $snowball_score = 0
+        $ennemy_score = 0
     end
 
     def button_down(id)
@@ -80,7 +77,7 @@ class SceneGame < Scene
     end
 
     def game_over
-        @window.switch_scene(:game_over)
+        reset
     end
 
     def update(dt)

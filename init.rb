@@ -7,6 +7,9 @@ class Window < Gosu::Window
         super(640, 480, false)
         self.caption = 'Gosu Game Jam 9'
         @scene = SceneGame.new(self)
+        @music = Gosu::Song.new('sfx/that-game-arcade-short-236108.mp3')
+        @music.volume = 0.05
+        @music.play(true)
     end
 
     def needs_cursor?; true; end
@@ -19,9 +22,7 @@ class Window < Gosu::Window
 
     def switch_scene(scene_type)
         @scene = case scene_type
-        when :title then SceneTitle.new(self) 
         when :game then SceneGame.new(self) 
-        when :game_over then SceneGameOver.new(self) 
         when :victory then SceneVictory.new(self) 
         end
     end

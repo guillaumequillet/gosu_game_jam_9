@@ -9,7 +9,7 @@ class Snowball
         @center_x, @center_y, @radius = center_x, center_y, @min_radius
         @angle = 0
         @speed = 0
-        @melting_speed = 0.01
+        @melting_speed = 0.005
         @speed_sign = nil
         @hero_push = false
         @gfx = Gosu::Image.new('gfx/snowball.png', retro: true)

@@ -1,4 +1,5 @@
 class Ennemy
+    SCORE = 100
     Z_ORDER = 5
 
     attr_reader :ko
@@ -15,7 +16,7 @@ class Ennemy
         # projectile
         @cooldown = Gosu.random(400, 1000)
         @cooldown_tick = Gosu.milliseconds - Gosu.random(0, @cooldown) # to randomize the beginning of the attack
-        @range = 300
+        @range = 400
         @speed = 0.7
         @ko = false
         @throwing = false
@@ -55,8 +56,9 @@ class Ennemy
     def hit!
         # hit point
         @map.scene.attack_effect(@x, @y)
-        @map.scene.play_sound(:hit, 0.4, 0.7)
+        @map.scene.play_sound(:hit, 0.8, 0.7)
         @ko = true
+        $ennemy_score += SCORE
     end
 
     def draw

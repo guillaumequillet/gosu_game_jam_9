@@ -1,6 +1,6 @@
 class Map
     TILE_SIZE = 32
-    MAP_LENGTH = 256
+    MAP_LENGTH = 128
     ENNEMIES = 30
 
     attr_reader :scene, :ennemies
@@ -35,8 +35,8 @@ class Map
         end
 
         @background = Gosu::Image.new('gfx/background.png', retro: true)
-        ((MAP_LENGTH * TILE_SIZE) / 300).floor.times do |x|
-            @bg_tiles.push (x * 300)
+        ((MAP_LENGTH * TILE_SIZE) / 128).floor.times do |x|
+            @bg_tiles.push (x * 128)
         end
 
         # interface
@@ -46,7 +46,7 @@ class Map
 
     def generate_ennemies
         beginning = 10 # distance to understand the mechanics
-        distance_between_ennemies = (((MAP_LENGTH - beginning) * TILE_SIZE) / ENNEMIES).floor
+        distance_between_ennemies = (((MAP_LENGTH - beginning - 1) * TILE_SIZE) / ENNEMIES).floor
         x = TILE_SIZE * beginning
         ENNEMIES.times do
             x += distance_between_ennemies
@@ -82,7 +82,7 @@ class Map
 
         # has hero reached the end ?
         if snowball.center_x + snowball.radius >= MAP_LENGTH * TILE_SIZE
-            $score = snowball.radius
+            $snowball_score += (snowball.radius).floor * 10
             @scene.window.switch_scene(:victory)
         end
     end
